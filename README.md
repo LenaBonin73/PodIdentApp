@@ -8,7 +8,7 @@ PodIndent app is a R shiny application made to visualize, explore and compare da
   - Compare them using normalized fold-change and vizualize it using lollipop plot : in this case there is one plot per gene under study. 
   - Compare them using normalized fold-change and vizualize it using a heatmap : the closer to 1 the more red, the closer to -1 the more blue. 0 is grey and missing value wight. In order for the heatmap to be displayed, at least two genes are necessary. 
 
-2) Plot a gene set enrichment : 
+2) Plot a gene set enrichment analysis : 
 The user can select one or more keyword(s) he wants to study and one or more dataset. Then an enrichment plot for each combination keyword/dataset is displayed. This plot is computed using the fgsea package (Korotkevich G, Sukhov V, Sergushichev A (2019). “Fast gene set enrichment analysis.” bioRxiv. doi: 10.1101/060012, http://biorxiv.org/content/early/2016/06/20/060012.)
 
 3) Download the datasets : 

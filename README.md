@@ -1,7 +1,7 @@
 # PodIndentApp
 Repository of the PodIndent app
 
-PodIndent app is a R shiny application made to visualize, explore and compare data from different studies about podocytes. \\
+PodIndent app is a R shiny application made to visualize, explore and compare data from different studies about podocytes. <br>
 The user can :
 1) Compare data, in this case he has 3 possibilities : 
   - Compare them using percentiles : in this case a barcode plot is displayed for each gene under study. There should be one vertical line per dataset in which the gene is found. However, all lines might not be vizible without zooming in.

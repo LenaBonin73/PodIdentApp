@@ -64,7 +64,7 @@ https://www.sciencedirect.com/science/article/pii/S0085253815558626?via%3Dihub <
 https://pubmed.ncbi.nlm.nih.gov/23364521/ <br>
 <br>
 
-<strong> Tripartite Separation of Glomerular Cell Types and Proteomes from Reporter-Free Mice (CMP) : </strong> <br>
+<strong> Tripartite Separation of Glomerular Cell Types and Proteomes from Reporter-Free Mice (CMS) : </strong> <br>
 The proteome of podocytes, mesangial cells and glomerular endothelial cells in mice of three strains.
 Murine mesangial, endothelial cells and podocytes were isolated by timMEP. C57BL/6, BALB/c and mT/mD mice were used. Proteomic data were searched by MaxQuant and quantified by LFQ algorithm. <br>
 https://jasn.asnjournals.org/content/32/9/2175 <br>

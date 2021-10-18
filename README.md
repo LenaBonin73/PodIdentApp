@@ -73,5 +73,6 @@ https://pubmed.ncbi.nlm.nih.gov/34074698/ <br>
 
 
 ## Percentiles
+For each gene in each dataset, we compute its percentile of absolute quantification. That is to say, percentile correspond to the percentage of genes in the same dataset that have an absolute quantification smaller or equal to the absolute quantification of the gene under study.
 
 ## Normalized fold-changes

@@ -76,3 +76,6 @@ https://pubmed.ncbi.nlm.nih.gov/34074698/ <br>
 For each gene in each dataset, we compute its percentile of absolute quantification. That is to say, percentile correspond to the percentage of genes in the same dataset that have an absolute quantification smaller or equal to the absolute quantification of the gene under study.
 
 ## Normalized fold-changes
+In order to be able to compare all datasets together we decided to use the relative quantification variable. However, these variables differed a lot between the datasets in their amplitude. Thus, we decided to normalize them in order to get a number between -1 and 1, where -1 means completely under expressed and 1 over expressed in that dataset. <br>
+To do that, we used the fact that for a normal distribution, 99.7 % of the data lie between mean - 3 sd and mean + 3 sd. For each gene, if its absolute quantification was less than the lower bound, then its normalized fold-change was set to -1, if it was greater than the upper bound, its normalized fold-change was set to 1. Otherwise, the normalized fold-change was computed as <br>
+-1 + (relative quanti - lower-bound)*2 / 

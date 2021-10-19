@@ -20,11 +20,11 @@ ui <- fluidPage(
                   ")),
          
                   tabPanel("Compare datasets",
-                             source("comparison.R")$value),
+                             source("ComparisonUI.R")$value),
                   tabPanel("Enrichment Plot",
-                             source("enrichment.R")$value),
-                  tabPanel("Download data", source('download.R')$value),
-                  tabPanel("Info", source('info.R')$value),
+                             source("EnrichmentUI.R")$value),
+                  tabPanel("Download data", source('DownloadUI.R')$value),
+                  tabPanel("Info", source('InfoUI.R')$value),
      selected = "Info"
                   )
           )

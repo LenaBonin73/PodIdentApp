@@ -1,12 +1,4 @@
-files <- c("Boerries_transcriptome",
-           "Rinschen_Goedel_transcriptome",
-           "Kann_transcriptome",
-           "Boerries_proteome",
-           "CMS_proteome",
-           "Rinschen_proteome",
-           "Karaiskos_scell",
-           "Chung_scell",
-           "Park_scell")
+source("global.R")
 
 fluidRow(
   column(4,

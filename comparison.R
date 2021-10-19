@@ -1,7 +1,4 @@
-library(data.table)
-load("mergeTable.rdata")
-listOfGenes <- as.data.table(mergeTab$Gene_name)
-listOfGenes <- setNames(listOfGenes, "Gene name")
+source("global.R")
 
 fluidRow(
   column(3,
@@ -64,7 +61,7 @@ fluidRow(
                         size = "xs"
                       )
                     )),
-           tabPanel("normalized Fold-changes Heatmap", htmlOutput("heatmapText"),
+           tabPanel("Normalized Fold-changes Heatmap", htmlOutput("heatmapText"),
                     tabPanel("heatmapPlot", plotlyOutput("heatmap")),
                     div(
                       style = "position: absolute; right: 0.5em; bottom: 0.5em;",

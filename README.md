@@ -1,18 +1,18 @@
-# PodIndentApp
-Repository of the PodIndent app
+# PodIdentApp
+Repository of the PodIdent app
 
-PodIndent app is a R shiny application made to visualize, explore and compare data from different studies about podocytes. <br>
+PodIdent app is an R shiny application made to visualize, explore and compare data from different studies about podocytes. <br>
 ## The user can :
-1) Compare data, in this case he has 3 possibilities : 
-  - Compare them using percentiles : in this case a barcode plot is displayed for each gene under study. There should be one vertical line per dataset in which the gene is found. However, all lines might not be vizible without zooming in.
-  - Compare them using normalized fold-change and vizualize it using lollipop plot : in this case there is one plot per gene under study. 
-  - Compare them using normalized fold-change and vizualize it using a heatmap : the closer to 1 the more red, the closer to -1 the more blue. 0 is grey and missing value wight. In order for the heatmap to be displayed, at least two genes are necessary. 
+1) Compare data, in this case one has 3 possibilities : 
+  - Compare them using percentiles : in this case a barcode plot is displayed for each gene under study. There should be one vertical line per dataset in which the gene is found. However, all lines might not be visible without zooming in. The position across the x-axis indicates the percentile of the gene in the corresponding dataset, while the height of the bar is equal for all datapoints.
+  - Compare them using normalized fold-change and visualize it using lollipop plot : in this case there is one plot per gene under study. 
+  - Compare them using normalized fold-change and visualize it using a heatmap : the closer to 1 the more red, the closer to -1 the more blue are the tiles. 0 is shown is grey and missing values in white. In order for the heatmap to be displayed, at least two genes are necessary. 
 
 2) Plot a gene set enrichment analysis : 
-The user can select one or more keyword(s) he wants to study and one or more dataset. Then an enrichment plot for each combination keyword/dataset is displayed. This plot is computed using the fgsea package (Korotkevich G, Sukhov V, Sergushichev A (2019). “Fast gene set enrichment analysis.” bioRxiv. doi: 10.1101/060012, http://biorxiv.org/content/early/2016/06/20/060012.)
+The user can select one or more keyword(s) he wants to study and one or more datasets. Then an enrichment plot for each keyword/dataset combination is displayed. This plot is computed using the fgsea package (Korotkevich G, Sukhov V, Sergushichev A (2019). “Fast gene set enrichment analysis.” bioRxiv. doi: 10.1101/060012, http://biorxiv.org/content/early/2016/06/20/060012.)
 
 3) Download the datasets : 
-The user can select one dataset to download as CSV, in this case, in addition the first 10 rows of the dataset are displayed in the application. It is also possible to dowload directly all datasets as CSV, in that case they are downloaded in a zip file. 
+The user can select one dataset to download as CSV. In addition the first 10 rows of the dataset are displayed in the application. It is also possible to download directly all datasets as CSV, in that case they are downloaded in a zip file. 
 
 ## Datasets
 <strong> Single-Cell Transcriptome Profiling of the Kidney Glomerulus Identifies Key Cell Types and Reactions to Injury (Chung) : </strong> <br>
@@ -77,7 +77,20 @@ For each gene in each dataset, we compute its percentile of absolute quantificat
 
 ## Normalized fold-changes
 In order to be able to compare all datasets together we decided to use the relative quantification variable. However, these variables differed a lot between the datasets in their amplitude. Thus, we decided to normalize them in order to get a number between -1 and 1, where -1 means completely under expressed and 1 over expressed in that dataset. <br>
-To do that, we used the fact that for a normal distribution, 99.7 % of the data lie between mean - 3 sd and mean + 3 sd. For each gene, if its absolute quantification was less than the lower bound, then its normalized fold-change was set to -1, if it was greater than the upper bound, its normalized fold-change was set to 1. Otherwise, the normalized fold-change was computed as <br>
--1 + (relative quanti - lower-bound)*2 / (upper-bound - lower-bound)
+To this aim, we used the fact that for a normal distribution, 99.7 % of the data lie between mean - 3 sd (lower bound) and mean + 3 sd (upper bound). For each gene, if its absolute quantification was less than the lower bound, then its normalized fold-change was set to -1, if it was greater than the upper bound, its normalized fold-change was set to 1. Otherwise, the normalized fold-change was computed as :<br>
+-1+ 2*(q<sub>r</sub> - Lb)/(Ub – Lb) <br>
+With: q <sub>r</sub>: relative quantity of the gene product, Lb: lower boundary, Ub: upper boundary <br>
+Histograms of the normalized relative quantifications can be found in the file ...
+<br>
+In addition, before performing the normalization, we actually had to compute the log2 fold-change of single-cell datasets from the data. Indeed, for each genes, only the expressions by cell types were available. Thus, we computed the log2 of fold-change as : <br>
+log2(p/(e+m) for Chung and Karaiskos single-cell, and as : log2(p/e) for Park dataset <br> With p: sum of the expression of all podocyte cells, e: sum of the expression of all endothelial cells and m: sum of the expression of all messangial cells <br>
+If either p or the sum e+m were equal to 0, then the gene was remove from the dataset as it was not possible to compute its log2 fold-change. <br>
 
-<strong> Nb : </strong> There is no relative quantification for Genome-Wide Analysis of Wilms’ Tumor 1-Controlled Gene Expression in Podocytes Reveals Key Regulatory Mechanisms (Kann) dataset.
+<strong> Nb : </strong> There is no relative quantification for Genome-Wide Analysis of Wilms’ Tumor 1-Controlled Gene Expression in Podocytes Reveals Key Regulatory Mechanisms (Kann) dataset. So it cannot be compared in normalized fold-change form in the app.
+
+## Enrichment plot
+In the here provided gene set enrichment analysis (GSEA, the user can define a gene set of interest by selecting an UniProtKB Keyword ( https://www.uniprot.org/keywords/ ) and investigate an eventual enrichment in a selected dataset.<br>
+<br>
+For this, all genes of the dataset are ranked according to the absolute quantification of their mRNA or protein product (x-axis, high – left, low – right). A rolling-sum is increased or decreased for each gene associated or not associated to the gene set (green line). The highest value reached (upper red line) is called the enrichment score (ES) and gives note about the over-all regulation of the selected gene set. In addition, black lines indicate the exact position of found genes in the ranked list. <br>
+<br>
+Regulated gene sets have a higher ES, as the associated genes appear close to each other in the ranked list. In addition, the position of the peak along the x-axis indicates the average expression level of the gene set. The distribution of the individual genes across the rank list of changed expression levels may offer a deeper understanding of similarly expressed clusters within the gene set, but can be disadvantageous for large gene sets(Subramanian et al., 2005).

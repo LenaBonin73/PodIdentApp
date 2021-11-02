@@ -80,7 +80,7 @@ In order to be able to compare all datasets together we decided to use the relat
 To this aim, we used the fact that for a normal distribution, 99.7 % of the data lie between mean - 3 sd (lower bound) and mean + 3 sd (upper bound). For each gene, if its absolute quantification was less than the lower bound, then its normalized fold-change was set to -1, if it was greater than the upper bound, its normalized fold-change was set to 1. Otherwise, the normalized fold-change was computed as:<br>
 -1+ 2*(q<sub>r</sub> - Lb)/(Ub – Lb) <br>
 With: q <sub>r</sub>: relative quantity of the gene product, Lb: lower boundary, Ub: upper boundary <br>
-Histograms of the normalized relative quantifications can be found in the file [Histogram_rq.pdf](Histogram_rq.pdf)<br>
+Histograms of the normalized relative quantifications can be found in the file [Histogram_rq.pdf](/Histogram_rq.pdf)<br>
 <br>
 In addition, before performing the normalization, we actually had to compute the log2 fold-change of single-cell datasets from the data. Indeed, for each genes, only the expressions by cell types were available. Thus, we computed the log2 of fold-change as : <br>
 log2(p/(e+m) for Chung and Karaiskos single-cell, and as : log2(p/e) for Park dataset <br> With p: sum of the expression of all podocyte cells, e: sum of the expression of all endothelial cells and m: sum of the expression of all messangial cells <br>

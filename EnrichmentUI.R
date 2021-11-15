@@ -1,4 +1,4 @@
-source("global.R")
+#source("global.R")
 
 fluidRow(
   column(4,
@@ -23,6 +23,9 @@ fluidRow(
                selected = files[1],
                multiple = TRUE
              )),
+         radioButtons("GSEA_ind", "Quantification",
+                      choices = c("Absolute", 'Normalized fold change'),
+                      selected = "Absolute"),
          br(),
          actionBttn('goEnrich', 'GO', color = "primary", style = "fill", size = "sm")
   ),
@@ -30,17 +33,8 @@ fluidRow(
   # output
   
   column(8,
-         tabPanel("", uiOutput("gseaMultiple") ,
-            div(
-           style = "position: absolute; right: 0.5em; bottom: 0.5em;",
-           actionBttn(
-             inputId = "gsea",
-             icon = icon("search-plus", class = "opt"),
-             style = "fill",
-             color = "danger",
-             size = "xs"
-           )
-         ))
-)
+         tabPanel("", htmlOutput("EnrichmentText"),
+                  tabPanel("EnrichmentPlot", uiOutput("gseaMultiple")))
+  )
 
 )

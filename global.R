@@ -41,6 +41,15 @@ files <- c("Boerries_transcriptome",
            "Chung_scell",
            "Park_scell")
 
+files_fold_change <- c("Boerries_transcriptome",
+                       "Rinschen_Goedel_transcriptome",
+                       "Boerries_proteome",
+                       "CMS_proteome",
+                       "Rinschen_proteome",
+                       "Karaiskos_scell",
+                       "Chung_scell",
+                       "Park_scell")
+
 load("keywords.rdata")
 load("HOM_AllOrganism.rdata")
 load("matchSymbolsHOM.rdata")

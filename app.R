@@ -37,6 +37,23 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   ########################### Enrichment ###########################
+  
+  # Update and select data according to the selected file
+  dataEnrichment <- eventReactive(input$goEnrich,{
+    input$selectedFile
+  })
+  
+  
+  # Update selected keyword
+  selectedKeyword <- eventReactive(input$goEnrich,{
+    input$keyword
+  })
+  
+  # Update selected quantification
+  selectedQuanti <- eventReactive(input$goEnrich,{
+    input$GSEA_ind
+  })
+  
   source("EnrichmentOutput.R", local = T)
   
   ########################## Comparison ############################
@@ -78,7 +95,7 @@ server <- function(input, output, session) {
   })
   
   
-  ######## Percentile barcode plot ########
+  ##### Percentile barcode plot #####
   
   source("BarcodeOutput.R", local = T)
   
@@ -100,10 +117,13 @@ server <- function(input, output, session) {
   
 } # close server function
 
-# Run the application 
+##################################################################################
+############################# Run the application ################################
+##################################################################################
 shinyApp(ui = ui, server = server)
 
-################## Error when deploying the app : ################################### 
+
+######################## Error when deploying the app : ##########################
 
 #Erreur : Unhandled Exception: Child Task 1018988132 failed: 
 #Error parsing manifest: Unable to determine package source for Bioconductor 
@@ -111,4 +131,4 @@ shinyApp(ui = ui, server = server)
 # if this error is yield when trying to deploy the app, then do the following : 
 #> options(repos = BiocManager::repositories())
 #> getOption("repos")
-#####################################################################################
+##################################################################################

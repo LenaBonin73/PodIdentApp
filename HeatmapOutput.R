@@ -4,72 +4,24 @@
 data_radar <- reactive({
   # selected genes
   selected_genes <- dataComp()
+  # empty file
+  full_data <- data.frame(Gene_name = character())
   
-  Boerries_proteome_filtered <- Boerries_proteome %>% 
-    select(Gene_name, normalized_fold) %>% 
-    rename(Boerries_proteome = normalized_fold) %>% 
-    filter(Gene_name %in% selected_genes)%>% 
-    arrange(desc(abs(Boerries_proteome))) %>% 
-    distinct(Gene_name, .keep_all = T)
-  
-  Boerries_transcriptome_filtered <- Boerries_transcriptome %>% 
-    select(Gene_name, normalized_fold) %>% 
-    rename(Boerries_transcriptome = normalized_fold) %>% 
-    filter(Gene_name %in% selected_genes)%>% 
-    arrange(desc(abs(Boerries_transcriptome))) %>% 
-    distinct(Gene_name, .keep_all = T)
-  
-  Chung_filtered <- Chung_scell %>% 
-    select(Gene_name, normalized_fold) %>% 
-    rename(Chung_scell = normalized_fold) %>% 
-    filter(Gene_name %in% selected_genes)%>% 
-    arrange(desc(abs(Chung_scell))) %>% 
-    distinct(Gene_name, .keep_all = T)
-  
-  CMS_filtered <- CMS_proteome %>% 
-    select(Gene_name, normalized_fold) %>% 
-    rename(CMS_proteome = normalized_fold) %>% 
-    filter(Gene_name %in% selected_genes)%>% 
-    arrange(desc(abs(CMS_proteome))) %>% 
-    distinct(Gene_name, .keep_all = T)
-  
-  # No relative quantification for Kann transcriptome
-  
-  Karaiskos_filtered <- Karaiskos_scell %>% 
-    select(Gene_name, normalized_fold) %>% 
-    rename(Karaiskos_scell = normalized_fold) %>% 
-    filter(Gene_name %in% selected_genes)%>% 
-    arrange(desc(abs(Karaiskos_scell ))) %>% 
-    distinct(Gene_name, .keep_all = T)
-  
-  Park_filtered <- Park_scell %>% 
-    select(Gene_name, normalized_fold) %>% 
-    rename(Park_scell = normalized_fold) %>% 
-    filter(Gene_name %in% selected_genes)%>% 
-    arrange(desc(abs(Park_scell))) %>% 
-    distinct(Gene_name, .keep_all = T)
-  
-  Rinschen_filtered <- Rinschen_proteome%>% 
-    select(Gene_name, normalized_fold) %>% 
-    rename(Rinschen_proteome = normalized_fold) %>% 
-    filter(Gene_name %in% selected_genes)%>% 
-    arrange(desc(abs(Rinschen_proteome))) %>% 
-    distinct(Gene_name, .keep_all = T)
-  
-  RG_filtered <- Rinschen_Goedel_transcriptome %>% 
-    select(Gene_name, normalized_fold) %>% 
-    rename(Rinschen_transcriptome = normalized_fold) %>% 
-    filter(Gene_name %in% selected_genes)%>% 
-    arrange(desc(Rinschen_transcriptome)) %>% 
-    distinct(Gene_name, .keep_all = T)
-  
-  full_data <- merge(Boerries_proteome_filtered, CMS_filtered, "Gene_name", all = T)
-  full_data <- merge(full_data, Rinschen_filtered, "Gene_name", all = T)
-  full_data <- merge(full_data, Chung_filtered, "Gene_name", all = T)
-  full_data <- merge(full_data, Karaiskos_filtered, "Gene_name", all = T)
-  full_data <- merge(full_data, Park_filtered, "Gene_name", all = T)
-  full_data <- merge(full_data, RG_filtered, "Gene_name", all = T)
-  full_data <- merge(full_data, Boerries_transcriptome_filtered , "Gene_name", all = T)
+  for(i in 1:length(files_fold_change)){
+    data_i <- get(files_fold_change[i])
+    data_i_filtered <- data_i %>% 
+      select(Gene_name, normalized_fold) %>% 
+      #rename(Rinschen_proteome = normalized_fold) %>% 
+      filter(Gene_name %in% selected_genes)%>% 
+      arrange(desc(abs(normalized_fold))) %>% 
+      distinct(Gene_name, .keep_all = T)
+    
+    #names(data_i_filtered)[names(data_i_filtered) == 'normalized_fold'] <- files_fold_change[i]
+    setnames(data_i_filtered, "normalized_fold", files_fold_change[i])
+    print(colnames(data_i_filtered))
+    full_data <- merge(full_data, data_i_filtered, "Gene_name", all = T)
+      
+  }
   full_data <- arrange(full_data, Gene_name)
   full_data
 })
@@ -141,7 +93,7 @@ output$heatmap <- renderPlotly({
     if(nrow(data_radar())>=2){ # At least 2 genes are needed to display the heatmap
       p <- plot_heatmap()
       ggplotly(p) %>% 
-        layout(height = 300+(length(dataComp())*5)) %>% 
+        layout(height = 400+(length(dataComp())*5)) %>% 
         config(
           modeBarButtonsToRemove = list("hoverCompareCartesian", "hoverClosestCartesian", "lasso2d", "select2d"),
           modeBarButtonsToAdd = list(dl_button)
